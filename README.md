@@ -36,7 +36,7 @@ Here: we find the distance between these two embeddings using the cosine distanc
 ArcFace: We would like similar classes to have embeddings close to each other and dissimilar ones far from each other, This is what ArcFace does. ArcFace adds more loss to the training procedure to encourage similar class embeddings to be close and dissimilar classes to be far from each other.
 
 4) Now After finishing steps 2 and step 3 we find the text embeddings using different techniques, I used TFIDF the concept is the same which is to find similarities, In the text we try to find similar titles.
-5) When we get the image predictions and text predictions then we just combine those and get the results.
+5) When we get the image Embedding predictions using **eca_nfnet_l0 model with KNearest Neighbors Algorithm** and text Embedding predictions from **TFIDF**. we combine those predictions for that specific row/product.
 6) The results will be like this: Product A: A B C G, this means product A is similar to the products A, B, C, and G.
 
 ## Results:
