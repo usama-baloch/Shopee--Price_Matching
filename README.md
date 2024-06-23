@@ -27,7 +27,7 @@ Evaluation Metric used F1 Score.
 2) Designed a Model 'eca_nfnet_l0' and made small changes in that which now returns the image embeddings instead of returning a one-hot encoded vector of classes.
 Explanation:
 In this problem, we need to match the products by their images and the best way to do that is to find the similarities of one image embedding with another. so the question, is
-what is embedding? Embedding in the sense of Computer Vision are the features extracted from the feature extractor of eca_nfnet_l0. but we learn that the CNN Classifiers only return the probabilities of the classes?
+what is embedding? Embedding in the sense of Computer Vision are the features extracted from the feature extractor of eca_nfnet_l0, but we learn that the CNN Classifiers only return the probabilities of the classes?
 Here we are extracting the embeddings before the last layer which is the output layer which return the probabilities of the classes.
 So Embedding is nothing but numbers which are useful because they are came from the number of Layers of CNN Classifier and they have important data like the uniqueness of the image. 
 
@@ -38,6 +38,9 @@ ArcFace: We would like similar classes to have embeddings close to each other an
 4) Now After finishing steps 2 and step 3 we find the text embeddings using different techniques, I used TFIDF the concept is the same which is to find similarities, In the text we try to find similar titles.
 5) When we get the image predictions and text predictions then we just combine those and get the results.
 6) The results will be like this: Product A: A B C G, this means product A is similar to the products A, B, C, and G.
+
+### EDA:
+I attached a Notebook in which I have done some Data Analysis, You can download it to understand how images are similar with different ids. you can add your analysis in this to further improve it if you want.
 
 Extra Info: 
 
