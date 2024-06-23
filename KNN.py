@@ -4,7 +4,7 @@ from cuml.neighbors import NearestNeighbors
 from tqdm import tqdm
 import gc
 
-def get_image_predictions(test_df, embeddings, threshold=0.3):
+def get_image_predictions(test_df, embeddings, threshold=0.0):
     
     if len(test_df) > 3:
         KNN = 50
