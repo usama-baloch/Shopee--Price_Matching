@@ -47,3 +47,13 @@ def get_transform():
 
         albumentations.pytorch.transform.ToTensorV2(p=1.0)
     ])
+
+
+def get_test_transform():
+
+    return albumentations.Compose([
+        
+        albumentations.Resize(config.img_size, config.img_size, always_apply=True),
+        albumentations.Normalize(),
+        albumentations.pytorch.transforms.ToTensorV2(p=1.0)
+    ])
