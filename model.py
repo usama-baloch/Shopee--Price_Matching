@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import config
 from arcprod import ArcMarginProduct
+import timm
 
 class ShopeeModel(nn.Module):
 
@@ -64,4 +65,70 @@ class ShopeeModel(nn.Module):
             out = self.fc(out)
             out = self.bn(out)
 
+        return out
+    
+
+class ShopeeModel_TEST(nn.Module):
+    
+    def __init__(self, n_classes = config.classes, model_name = config.model_name,
+                fc_dim = 512, margin = config.margin, scale = config.scale,
+                use_fc = True, pretrained = False):
+        
+        super(ShopeeModel, self).__init__()
+        print(f'Building up the model: {model_name}')
+        
+        self.backbone = timm.create_model(model_name, pretrained=pretrained)
+        
+        if model_name == 'efficientnet_b3':
+            final_in_features = self.backbone.classifier.in_features
+            self.backbone.classifier = nn.Identity()
+            self.backbone.global_pool = nn.Identity()
+        elif model_name == 'eca_nfnet_l0':
+            final_in_features = self.backbone.head.fc.in_features
+            self.backbone.head.fc = nn.Identity()
+            self.backbone.head.global_pool = nn.Identity()
+        
+        self.pooling = nn.AdaptiveAvgPool2d(1)
+        
+        self.use_fc = use_fc
+        
+        self.dropout = nn.Dropout(p=0.0)
+        self.fc = nn.Linear(final_in_features, fc_dim)
+        self.bn = nn.BatchNorm1d(fc_dim)
+        self._init_params()
+        final_in_features = fc_dim
+        
+        
+        self.final = ArcMarginProduct(
+            final_in_features,
+            n_classes,
+            scale = scale,
+            margin = margin,
+            easy_margin = False,
+            ls_eps = 0.0
+        )
+        
+        
+    def _init_params(self):
+        nn.init.xavier_normal_(self.fc.weight)
+        nn.init.constant_(self.fc.bias, 0)
+        nn.init.constant_(self.bn.weight, 1)
+        nn.init.constant_(self.bn.bias, 0)
+        
+    def forward(self, image, label):
+        features = self.extract_features(image)
+        
+        return features
+    
+    def extract_features(self, x):
+        batch_size = x.shape[0]
+        out = self.backbone(x)
+        out = self.pooling(out).view(batch_size, -1)
+        
+        if self.use_fc:
+            out = self.dropout(out)
+            out = self.fc(out)
+            out = self.bn(out)
+        
+        
         return out
