@@ -39,8 +39,17 @@ ArcFace: We would like similar classes to have embeddings close to each other an
 5) When we get the image predictions and text predictions then we just combine those and get the results.
 6) The results will be like this: Product A: A B C G, this means product A is similar to the products A, B, C, and G.
 
-### EDA:
-I attached a Notebook in which I have done some Data Analysis, You can download it to understand how images are similar with different ids. you can add your analysis in this to further improve it if you want.
+## Results:
+
+Used **eca_nfnet_l0 model**
+
+| Optimizer | Activation Function | EPOCHS | F1 Score | 
+|-----------|---------------------|--------|----------|
+| Ranger    | SiLU                |   3    |    0.54  |
+| Ranger    | Mish                |   15   |    0.71  |
+
+## EDA:
+I attached a Notebook in which I have done some Data Analysis, You can download it to understand how images are similar with different IDs. you can add your analysis to this to further improve it if you want.
 
 Extra Info: 
 
